@@ -1,7 +1,9 @@
+import { Request, Response } from "express";
 import { db } from "../database/connection";
+import { IdParam, LocacaoBody } from "../types";
 
 // Listar todas as locações
-export const listarLocacoes = async (req, res) => {
+export const listarLocacoes = async (req: Request, res: Response) => {
   const data = await db("locacao")
     .select(
       "locacao.id",
@@ -16,7 +18,7 @@ export const listarLocacoes = async (req, res) => {
 };
 
 // Buscar locação por ID
-export const buscarLocacao = async (req, res) => {
+export const buscarLocacao = async (req: Request<IdParam>, res: Response) => {
   const { id } = req.params;
   const data = await db("locacao")
     .select(
@@ -34,7 +36,7 @@ export const buscarLocacao = async (req, res) => {
 };
 
 // Alugar filme (diminui estoque)
-export const alugarFilme = async (req, res) => {
+export const alugarFilme = async (req: Request<{}, {}, LocacaoBody>, res: Response) => {
   const { id_filme, nome_cliente } = req.body;
 
   // Verificar se o filme existe e tem estoque
@@ -68,7 +70,7 @@ export const alugarFilme = async (req, res) => {
 };
 
 // Devolver filme (aumenta estoque)
-export const devolverFilme = async (req, res) => {
+export const devolverFilme = async (req: Request<IdParam>, res: Response) => {
   const { id } = req.params;
 
   // Buscar a locação
@@ -103,7 +105,7 @@ export const devolverFilme = async (req, res) => {
 };
 
 // Listar filmes disponíveis (com estoque)
-export const listarFilmesDisponiveis = async (req, res) => {
+export const listarFilmesDisponiveis = async (req: Request, res: Response) => {
   const data = await db("filme")
     .select(
       "filme.id",
