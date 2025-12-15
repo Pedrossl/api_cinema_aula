@@ -1,13 +1,11 @@
-import { Request, Response } from "express";
 import { db } from "../database/connection";
-import { IdParam, FilmeBody } from "../types";
 
-export const listarFilmes = async (req: Request, res: Response) => {
+export const listarFilmes = async (req, res) => {
   const data = await db("filme").select("*");
   return res.json(data);
 };
 
-export const listarFilmesCompleto = async (req: Request, res: Response) => {
+export const listarFilmesCompleto = async (req, res) => {
   const data = await db("filme")
     .select(
       "filme.id",
@@ -21,13 +19,13 @@ export const listarFilmesCompleto = async (req: Request, res: Response) => {
   return res.json(data);
 };
 
-export const buscarFilme = async (req: Request<IdParam>, res: Response) => {
+export const buscarFilme = async (req, res) => {
   const { id } = req.params;
   const data = await db("filme").where({ id }).first();
   return res.json(data);
 };
 
-export const buscarFilmeCompleto = async (req: Request<IdParam>, res: Response) => {
+export const buscarFilmeCompleto = async (req, res) => {
   const { id } = req.params;
   const data = await db("filme")
     .select(
@@ -44,7 +42,7 @@ export const buscarFilmeCompleto = async (req: Request<IdParam>, res: Response) 
   return res.json(data);
 };
 
-export const listarFilmesComAtores = async (req: Request, res: Response) => {
+export const listarFilmesComAtores = async (req, res) => {
   const data = await db("filme")
     .select(
       "filme.id",
@@ -57,7 +55,7 @@ export const listarFilmesComAtores = async (req: Request, res: Response) => {
   return res.json(data);
 };
 
-export const buscarFilmeComAtores = async (req: Request<IdParam>, res: Response) => {
+export const buscarFilmeComAtores = async (req, res) => {
   const { id } = req.params;
   const data = await db("filme")
     .select(
@@ -72,7 +70,7 @@ export const buscarFilmeComAtores = async (req: Request<IdParam>, res: Response)
   return res.json(data);
 };
 
-export const criarFilme = async (req: Request<{}, {}, FilmeBody>, res: Response) => {
+export const criarFilme = async (req, res) => {
   const { titulo, ano, estoque, id_diretor, id_categoria } = req.body;
 
   const id = await db("filme").insert({
@@ -86,7 +84,7 @@ export const criarFilme = async (req: Request<{}, {}, FilmeBody>, res: Response)
   return res.json({ id });
 };
 
-export const atualizarFilme = async (req: Request<IdParam, {}, FilmeBody>, res: Response) => {
+export const atualizarFilme = async (req, res) => {
   const { id } = req.params;
   const { titulo, ano, estoque, id_diretor, id_categoria } = req.body;
 
@@ -97,7 +95,7 @@ export const atualizarFilme = async (req: Request<IdParam, {}, FilmeBody>, res: 
   return res.json({ message: "Filme atualizado" });
 };
 
-export const deletarFilme = async (req: Request<IdParam>, res: Response) => {
+export const deletarFilme = async (req, res) => {
   const { id } = req.params;
   await db("filme").where({ id }).delete();
   return res.json({ message: "Filme deletado" });
