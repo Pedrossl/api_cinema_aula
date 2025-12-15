@@ -37,6 +37,8 @@ import {
 } from "../controllers/filme.controller";
 
 import {
+  buscarAtoresDoFilme,
+  cadastrarVariosAtoresNoFilme,
   criarFilmeAtor,
   deletarFilmeAtor,
   listarFilmeAtores,
@@ -86,7 +88,9 @@ router.delete("/filmes/:id", deletarFilme);
 
 /* ---------- FILME / ATOR (N:N) ---------- */
 router.get("/filme-atores", listarFilmeAtores);
+router.get("/filme-atores/:id_filme", buscarAtoresDoFilme);
 router.post("/filme-atores", criarFilmeAtor);
+router.post("/filme-atores/varios", cadastrarVariosAtoresNoFilme);
 router.delete("/filme-atores", deletarFilmeAtor);
 
 /* ---------- LOCAÇÃO (Lógica de Negócio) ---------- */
